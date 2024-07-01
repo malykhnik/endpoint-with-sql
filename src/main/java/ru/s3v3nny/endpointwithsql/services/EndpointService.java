@@ -58,9 +58,13 @@ public class EndpointService {
             return new Response<>(null, err);
         }
         String newToken = util.generateToken();
-        Token token = repository.findAll().get(0);
-        token.setValue(newToken);
-        repository.save(token);
+        try {
+            Token token = repository.findAll().get(0);
+            token.setValue(newToken);
+            repository.save(token);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         var tokenDto = new TokenData(newToken);
         return new Response<>(tokenDto, null);
     }
