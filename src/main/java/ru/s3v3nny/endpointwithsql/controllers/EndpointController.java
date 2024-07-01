@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.s3v3nny.endpointwithsql.dto.AuthData;
-import ru.s3v3nny.endpointwithsql.dto.TokenData;
 import ru.s3v3nny.endpointwithsql.services.EndpointService;
 import ru.s3v3nny.endpointwithsql.dto.Response;
 
@@ -16,8 +15,9 @@ public class EndpointController {
     private final EndpointService service;
 
     @GetMapping("/check-status")
-    public ResponseEntity checkServiceStatus (@RequestBody TokenData tokenData) {
-        Response response = service.checkServiceStatus(tokenData);
+    public ResponseEntity checkServiceStatus (@RequestHeader("token") String token) {
+        Response response = service.checkServiceStatus(token);
+
         return response.getError() == null ? ResponseEntity.ok().body(response.getValue())
                 : ResponseEntity.badRequest().body(response.getError());
     }
