@@ -41,9 +41,14 @@ public class EndpointService {
             serviceDtos.add(serviceDto);
         }
         String newToken = util.generateToken();
-        Token tokenObj = repository.findAll().get(0);
-        tokenObj.setValue(newToken);
-        repository.save(tokenObj);
+        try {
+            Token tokenObj = repository.findAll().get(0);
+            tokenObj.setValue(newToken);
+            repository.save(tokenObj);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         var msg = new Message(newToken, serviceDtos);
         return new Response(msg, null);
     }
