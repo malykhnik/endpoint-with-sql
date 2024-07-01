@@ -35,6 +35,7 @@ public class EndpointService {
             serviceDtos.add(serviceDto);
             serviceDto = new ServiceDto("sql_database", "inactive");
             String newToken = util.generateToken();
+            cachedToken = newToken;
             serviceDtos.add(serviceDto);
             var msg = new Message(newToken, serviceDtos);
             return new Response(msg, null);

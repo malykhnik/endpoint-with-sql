@@ -2,7 +2,7 @@ spring:
   application:
     name: endpoint-with-sql
   datasource:
-    url: jdbc:postgresql://sloth-2.suslovd.ru:9132/endpoint1
+    url: jdbc:postgresql://sloth-2.suslovd.ru:9132/endpoint
     username: user
     password: pass
     driver-class-name: org.postgresql.Driver
