@@ -6,4 +6,5 @@ import ru.s3v3nny.endpointwithsql.entities.Token;
 
 @Repository
 public interface TokenRepository extends JpaRepository<Token, Long> {
+    Token findByValue(String value);
 }
