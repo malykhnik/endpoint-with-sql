@@ -1,4 +1,4 @@
-package ru.s3v3nny.endpointwithsql;
+package ru.malykhnik.endpointwithsql;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

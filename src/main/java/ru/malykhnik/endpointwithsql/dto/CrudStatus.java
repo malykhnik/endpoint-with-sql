@@ -1,4 +1,4 @@
-package ru.s3v3nny.endpointwithsql.dto;
+package ru.malykhnik.endpointwithsql.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

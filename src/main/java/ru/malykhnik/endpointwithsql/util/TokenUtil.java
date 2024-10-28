@@ -1,4 +1,4 @@
-package ru.s3v3nny.endpointwithsql.util;
+package ru.malykhnik.endpointwithsql.util;
 
 import org.springframework.stereotype.Component;
 

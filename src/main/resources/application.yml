@@ -1,0 +1,31 @@
+server:
+  port: 3080
+spring:
+  application:
+    name: endpoint-with-sql
+  datasource:
+    url: jdbc:postgresql://endpoint-with-sql-db:5432/db_for_sql
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
+auth:
+  login: endpoint2
+  password_hash: $2a$12$ONebYb21q/BIEbQfZNT5ieIBEEhoZWZTnp6Jvwk.fpf4J/NgPUHDm
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, prometheus
+  prometheus:
+    metrics:
+      export:
+        enabled: true

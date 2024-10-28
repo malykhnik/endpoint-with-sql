@@ -1,20 +1,24 @@
-package ru.s3v3nny.endpointwithsql.services;
+package ru.malykhnik.endpointwithsql.services;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import ru.s3v3nny.endpointwithsql.dto.*;
-import ru.s3v3nny.endpointwithsql.dto.Error;
-import ru.s3v3nny.endpointwithsql.entities.Token;
-import ru.s3v3nny.endpointwithsql.repositories.TokenRepository;
-import ru.s3v3nny.endpointwithsql.util.TokenUtil;
+import ru.malykhnik.endpointwithsql.dto.*;
+import ru.malykhnik.endpointwithsql.dto.Error;
+import ru.malykhnik.endpointwithsql.entities.Token;
+import ru.malykhnik.endpointwithsql.repositories.TokenRepository;
+import ru.malykhnik.endpointwithsql.util.TokenUtil;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class EndpointService {
+    private final Logger LOGGER = LoggerFactory.getLogger(EndpointService.class);
 
     private final TokenRepository repository;
     private final TokenUtil util;
@@ -39,13 +43,16 @@ public class EndpointService {
             cachedToken = newToken;
             serviceDtos.add(serviceDto);
             var msg = new Message(newToken, serviceDtos);
+            LOGGER.info("ЗАШЛО В if" + msg);
             return new Response(msg, null);
         } else if (!token.equals(cachedToken) && cachedToken != null) {
             var err = new Error("Wrong token");
+            LOGGER.error("Wrong token_1");
             return new Response<>(null, err);
         }
         if (!validateToken(token)) {
             var err = new Error("Wrong token");
+            LOGGER.error("Wrong token_2");
             return new Response<>(null, err);
         }
 
@@ -61,6 +68,8 @@ public class EndpointService {
         repository.save(tokenObj);
 
         var msg = new Message(newToken, serviceDtos);
+
+        LOGGER.info(String.valueOf(msg));
         return new Response(msg, null);
     }
 
@@ -74,16 +83,28 @@ public class EndpointService {
             return new Response<>(null, err);
         }
         String newToken = util.generateToken();
+        LOGGER.info("New Token: " + newToken);
         try {
-            Token token = repository.findAll().get(0);
-            token.setValue(newToken);
-            repository.save(token);
+            List<Token> tokenList = repository.findAll();
+            if (tokenList.isEmpty()) {
+                Token token = Token.builder().value(newToken).build();
+                repository.save(token);
+                LOGGER.info("List is Empty. Token saved.");
+            } else {
+                Token token = tokenList.get(0);
+                repository.delete(token);
+                token.setValue(newToken);
+                repository.save(token);
+                LOGGER.info("List is not Empty. Token saved." + token);
+            }
             database_online = true;
         } catch (Exception e) {
+            LOGGER.error("Зашло в catch");
             database_online = false;
             cachedToken = newToken;
         }
         var tokenDto = new TokenData(newToken);
+        LOGGER.info(tokenDto.toString());
         return new Response<>(tokenDto, null);
     }
 

@@ -1,10 +1,10 @@
-package ru.s3v3nny.endpointwithsql.services;
+package ru.malykhnik.endpointwithsql.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.s3v3nny.endpointwithsql.dto.CrudStatus;
-import ru.s3v3nny.endpointwithsql.entities.Token;
-import ru.s3v3nny.endpointwithsql.repositories.TokenRepository;
+import ru.malykhnik.endpointwithsql.dto.CrudStatus;
+import ru.malykhnik.endpointwithsql.entities.Token;
+import ru.malykhnik.endpointwithsql.repositories.TokenRepository;
 
 @Service
 @RequiredArgsConstructor
